@@ -1,4 +1,5 @@
 {
+  "$schema": "https://json.schemastore.org/package.json",
   "name": "dogcat-labeler-server",
   "version": "1.0.0",
   "description": "Backend API for dogcat labeler platform",

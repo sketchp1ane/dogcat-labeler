@@ -1,4 +1,5 @@
 {
+  "$schema": "https://json.schemastore.org/package.json",
   "name": "dogcat-labeler",
   "version": "1.0.0",
   "description": "A simple dog and cat image annotation platform",
