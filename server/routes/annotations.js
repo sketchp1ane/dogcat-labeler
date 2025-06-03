@@ -1,18 +1,41 @@
-const Router        = require('express').Router;
-const db            = require('../db');
-const { requireRole } = require('../middleware/auth');
+const express = require('express');
+const router = express.Router();
+const annotationController = require('../controllers/annotationController');
+const { authenticateToken, requireAnnotator } = require('../middleware/auth');
 
-const router = Router();
+// 提交标注
+router.post('/tasks/:taskId/submit', 
+  authenticateToken, 
+  requireAnnotator, 
+  annotationController.submitAnnotation
+);
 
-// 标注提交
-router.post('/', requireRole('annotator'), async (req, res) => {
-  const { imageId, label } = req.body;
-  await db.query(
-    'INSERT INTO annotations(image_id,user_id,label) VALUES(?,?,?)',
-    [imageId, req.session.user.id, label]
-  );
-  await db.query("UPDATE images SET status='review' WHERE id=?", [imageId]);
-  res.json({ ok: true });
-});
+// 获取标注历史
+router.get('/history', 
+  authenticateToken, 
+  requireAnnotator, 
+  annotationController.getAnnotationHistory
+);
 
-module.exports = router;
+// 获取待标注任务
+router.get('/pending', 
+  authenticateToken, 
+  requireAnnotator, 
+  annotationController.getPendingTasks
+);
+
+// 领取任务
+router.post('/tasks/:taskId/claim', 
+  authenticateToken, 
+  requireAnnotator, 
+  annotationController.claimTask
+);
+
+// 获取标注统计
+router.get('/stats', 
+  authenticateToken, 
+  requireAnnotator, 
+  annotationController.getAnnotationStats
+);
+
+module.exports = router; 

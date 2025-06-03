@@ -1,0 +1,8 @@
+<svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="400" fill="#f3f4f6"/>
+  <text x="200" y="190" font-family="Arial, sans-serif" font-size="16" fill="#6b7280" text-anchor="middle">图片加载失败</text>
+  <text x="200" y="210" font-family="Arial, sans-serif" font-size="16" fill="#6b7280" text-anchor="middle">Image not found</text>
+  <circle cx="200" cy="150" r="20" fill="#d1d5db"/>
+  <rect x="185" y="135" width="30" height="20" rx="2" fill="#9ca3af"/>
+  <circle cx="192" cy="142" r="3" fill="#d1d5db"/>
+</svg> 

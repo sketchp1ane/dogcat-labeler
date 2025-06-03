@@ -1,28 +1,18 @@
-const Router = require('express').Router;
-const bcrypt = require('bcrypt');
-const db     = require('../db');
+const express = require('express');
+const router = express.Router();
+const authController = require('../controllers/authController');
+const { authenticateToken, requireAdmin } = require('../middleware/auth');
 
-const router = Router();
+// 用户登录
+router.post('/login', authController.login);
 
-router.post('/login', async (req, res) => {
-  const { username, password } = req.body;
-  const [[user]] = await db.query(
-    'SELECT * FROM users WHERE username=?',
-    [username]
-  );
-  if (!user) return res.status(400).json({ msg: 'user not found' });
+// 用户注册（仅管理员）
+router.post('/register', authenticateToken, requireAdmin, authController.register);
 
-  const ok = await bcrypt.compare(password, user.password);
-  if (!ok) return res.status(400).json({ msg: 'wrong password' });
+// 获取当前用户信息
+router.get('/me', authenticateToken, authController.getCurrentUser);
 
-  req.session.user = { id: user.id, role: user.role };
-  res.json(req.session.user);
-});
+// 修改密码
+router.put('/change-password', authenticateToken, authController.changePassword);
 
-router.get('/me', (req, res) => res.json(req.session.user || null));
-
-router.post('/logout', (req, res) => {
-  req.session.destroy(() => res.json({ ok: true }));
-});
-
-module.exports = router;
+module.exports = router; 

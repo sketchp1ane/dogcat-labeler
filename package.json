@@ -1,16 +1,19 @@
 {
   "name": "dogcat-labeler",
   "version": "1.0.0",
-  "main": "index.js",
+  "description": "A simple dog and cat image annotation platform",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:server": "cd server && npm run dev",
+    "dev:client": "cd client && npm run dev",
+    "install:all": "npm install && cd server && npm install && cd ../client && npm install",
+    "build": "cd client && npm run build",
+    "start": "cd server && npm start"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
   "devDependencies": {
-    "concurrently": "^9.1.2",
-    "nodemon": "^3.1.10"
-  }
-}
+    "concurrently": "^8.2.2"
+  },
+  "keywords": ["annotation", "image", "dog", "cat", "labeling"],
+  "author": "",
+  "license": "MIT"
+} 

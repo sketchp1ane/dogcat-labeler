@@ -1,20 +1,24 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
+// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
   server: {
+    port: 5173,
     proxy: {
-      // 所有以 /api 开头的请求都会转发到后端 3000 端口
       '/api': {
-        target: 'http://localhost:3000',
+        target: 'http://localhost:3001',
         changeOrigin: true
       },
-      // 可选：支持静态资源也从后端拿（如 /uploads/...）
       '/uploads': {
-        target: 'http://localhost:3000',
+        target: 'http://localhost:3001',
         changeOrigin: true
       }
     }
+  },
+  build: {
+    outDir: 'dist',
+    sourcemap: true
   }
-})
+}) 
