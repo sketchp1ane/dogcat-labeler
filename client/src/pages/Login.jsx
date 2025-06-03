@@ -131,11 +131,33 @@ export default function Login() {
           
           <div className="text-center">
             <div className="text-sm text-gray-600">
-              <p className="mb-2">测试账号：</p>
-              <div className="space-y-1 text-xs">
-                <p><strong>管理员:</strong> admin / admin123</p>
-                <p><strong>标注员:</strong> annotator1 / pass123</p>
-                <p><strong>审核员:</strong> reviewer1 / pass123</p>
+              <p className="mb-3 font-medium">🔑 快速测试账户</p>
+              <div className="space-y-2 text-xs bg-gray-50 p-3 rounded-lg">
+                <div className="grid grid-cols-2 gap-2">
+                  <div className="text-left">
+                    <p className="font-semibold text-gray-700">🔧 管理员</p>
+                    <p className="text-gray-600">admin / admin123</p>
+                  </div>
+                  <div className="text-left">
+                    <p className="font-semibold text-gray-700">👨‍⚖️审核员</p>
+                    <p className="text-gray-600">reviewer1 / pass123</p>
+                  </div>
+                </div>
+                <hr className="border-gray-200" />
+                <div className="text-left">
+                  <p className="font-semibold text-gray-700 mb-1">✏️ 标注员（不同技能等级）</p>
+                  <div className="grid grid-cols-2 gap-1">
+                    <p className="text-gray-600">🏆 annotator_expert</p>
+                    <p className="text-gray-600">🥈 annotator_senior</p>
+                    <p className="text-gray-600">🥉 annotator1</p>
+                    <p className="text-gray-600">🔰 annotator_junior1</p>
+                  </div>
+                  <p className="text-gray-500 mt-1">所有标注员密码: pass123</p>
+                </div>
+                <hr className="border-gray-200" />
+                <p className="text-xs text-gray-500 italic">
+                  💡 提示：不同等级的标注员有不同的表现数据，可用于测试分析功能
+                </p>
               </div>
             </div>
           </div>
