@@ -43,7 +43,7 @@
 ### 方式一：一键启动（推荐）
 ```bash
 # 克隆项目
-git clone <your-repo-url>
+git clone https://github.com/sketchp1ane/dogcat-labeler.git
 cd dogcat-labeler
 
 # 一键启动（自动安装依赖、检查数据库、启动前后端）
@@ -53,14 +53,19 @@ cd dogcat-labeler
 ### 方式二：手动启动
 ```bash
 # 1. 安装依赖
-npm run install:all
+npm install
+cd client && npm install
+cd ../server && npm install
 
 # 2. 配置数据库并初始化
-cd server
 cp .env.example .env  # 配置数据库连接
-npm run init-db      # 初始化数据库和默认数据
+node scripts/init-database.js      # 初始化数据库和默认数据
 
 # 3. 启动开发服务器
+# 后端（在server目录）
+npm start
+
+# 前端（在client目录，新终端）
 npm run dev
 ```
 
@@ -108,24 +113,39 @@ npm run dev
 
 ```
 dogcat-labeler/
-├── client/                 # React前端应用
+├── client/                      # React前端应用
 │   ├── src/
-│   │   ├── components/    # 可复用组件
-│   │   ├── pages/        # 页面组件
-│   │   ├── contexts/     # React上下文
-│   │   ├── services/     # API服务
-│   │   └── utils/        # 工具函数
-│   └── public/
-├── server/                # Express后端应用
-│   ├── controllers/      # 业务逻辑控制器
-│   ├── middleware/       # 中间件
-│   ├── routes/          # API路由
-│   ├── config/          # 配置文件
-│   ├── scripts/         # 数据库脚本
-│   └── uploads/         # 文件上传目录
-├── start.sh             # 一键启动脚本
-├── USER_ACCOUNTS.md     # 用户账户说明
-└── README.md
+│   │   ├── components/         # 可复用组件
+│   │   ├── pages/             # 页面组件
+│   │   ├── contexts/          # React上下文 (AuthContext等)
+│   │   ├── services/          # API服务
+│   │   ├── App.jsx            # 主应用组件
+│   │   ├── main.jsx           # 应用入口
+│   │   └── index.css          # 全局样式
+│   ├── index.html             # HTML模板
+│   ├── package.json           # 前端依赖配置
+│   ├── vite.config.js         # Vite配置
+│   └── tailwind.config.js     # Tailwind CSS配置
+├── server/                     # Express后端应用
+│   ├── controllers/           # 业务逻辑控制器
+│   ├── middleware/            # 中间件 (认证、权限等)
+│   ├── routes/               # API路由定义
+│   ├── config/               # 配置文件 (数据库等)
+│   ├── scripts/              # 数据库管理脚本
+│   │   ├── init-database.js     # 数据库初始化
+│   │   ├── generate-complex-data.js  # 复杂测试数据
+│   │   ├── generate-sample-data.js   # 示例数据
+│   │   ├── check-database.js         # 数据库状态检查
+│   │   └── analyze-annotator-performance.js  # 性能分析
+│   ├── uploads/              # 文件上传目录
+│   ├── public/               # 静态文件
+│   ├── test_cat_images/      # 测试用猫咪图片
+│   ├── app.js                # Express应用配置
+│   └── package.json          # 后端依赖配置
+├── start.sh                   # 一键启动脚本
+├── USER_ACCOUNTS.md          # 用户账户详细说明
+├── package.json              # 项目根依赖
+└── README.md                 # 项目说明文档
 ```
 
 ## 🗄️ 数据库设计
@@ -149,7 +169,7 @@ node scripts/init-database.js
 # 生成示例数据
 node scripts/generate-sample-data.js
 
-# 生成复杂测试数据
+# 生成复杂测试数据（推荐）
 node scripts/generate-complex-data.js
 
 # 检查数据库状态
@@ -160,9 +180,9 @@ node scripts/analyze-annotator-performance.js
 ```
 
 ### 添加新功能
-1. **前端**: 在 `client/src/pages/` 添加页面，在 `client/src/services/api.js` 添加API调用
+1. **前端**: 在 `client/src/pages/` 添加页面，在 `client/src/services/` 添加API调用
 2. **后端**: 在 `server/controllers/` 添加控制器，在 `server/routes/` 配置路由
-3. **权限**: 在 `server/middleware/auth.js` 配置权限检查
+3. **权限**: 在 `server/middleware/` 配置权限检查
 4. **数据库**: 根据需要修改表结构和初始化脚本
 
 ### 样式指南
