@@ -40,6 +40,13 @@ const submitAnnotation = async (req, res) => {
       );
 
       if (existingAnnotations.length > 0) {
+        // 如果是重新提交，先删除之前的审核记录
+        const annotationId = existingAnnotations[0].id;
+        await connection.execute(
+          'DELETE FROM reviews WHERE annotation_id = ?',
+          [annotationId]
+        );
+        
         // 更新现有标注
         await connection.execute(
           'UPDATE annotations SET label = ?, confidence = ?, annotation_time = ?, updated_at = CURRENT_TIMESTAMP WHERE task_id = ?',
