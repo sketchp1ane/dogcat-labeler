@@ -13,6 +13,7 @@ const taskRoutes = require('./routes/tasks');
 const annotationRoutes = require('./routes/annotations');
 const reviewRoutes = require('./routes/reviews');
 const userRoutes = require('./routes/users');
+const analyticsRoutes = require('./routes/analytics');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -50,6 +51,7 @@ app.use('/api/tasks', taskRoutes);
 app.use('/api/annotations', annotationRoutes);
 app.use('/api/reviews', reviewRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/analytics', analyticsRoutes);
 
 // 健康检查
 app.get('/api/health', (req, res) => {

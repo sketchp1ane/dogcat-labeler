@@ -87,6 +87,14 @@ export const reviewAPI = {
   batchReview: (data) => api.post('/reviews/batch', data),
 }
 
+// 分析API
+export const analyticsAPI = {
+  getAnnotationProgress: () => api.get('/analytics/annotation-progress'),
+  getAnnotationQuality: () => api.get('/analytics/annotation-quality'),
+  getTimeAnalysis: () => api.get('/analytics/time-analysis'),
+  getDashboardData: () => api.get('/analytics/dashboard'),
+}
+
 // 用户API
 export const userAPI = {
   getAllUsers: (params) => api.get('/users', { params }),

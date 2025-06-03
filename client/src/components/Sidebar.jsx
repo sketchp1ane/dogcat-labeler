@@ -25,6 +25,7 @@ export default function Sidebar() {
         { name: '用户管理', href: '/dashboard/users', icon: Users },
         { name: '标注审核', href: '/dashboard/review', icon: CheckSquare },
         { name: '标注任务', href: '/dashboard/annotation', icon: Image },
+        { name: '数据分析', href: '/dashboard/analytics', icon: BarChart3 },
       ]
     }
 

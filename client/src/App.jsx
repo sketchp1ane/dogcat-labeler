@@ -7,6 +7,7 @@ import AnnotationPage from './pages/AnnotationPage'
 import UploadPage from './pages/UploadPage'
 import ReviewPage from './pages/ReviewPage'
 import UsersPage from './pages/UsersPage'
+import AnalyticsPage from './pages/AnalyticsPage'
 
 // 受保护的路由组件
 function ProtectedRoute({ children, requiredRole = null }) {
@@ -86,6 +87,14 @@ function App() {
                 element={
                   <ProtectedRoute requiredRole="admin">
                     <UsersPage />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="analytics" 
+                element={
+                  <ProtectedRoute requiredRole="admin">
+                    <AnalyticsPage />
                   </ProtectedRoute>
                 } 
               />
