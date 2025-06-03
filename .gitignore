@@ -88,6 +88,9 @@ jspm_packages/
 # Uploads directory (contains user uploaded files)
 server/uploads/
 
+# Test images directory (not part of the project)
+server/test_cat_images/
+
 # OS generated files
 .DS_Store
 .DS_Store?

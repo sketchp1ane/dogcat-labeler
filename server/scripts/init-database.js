@@ -136,46 +136,70 @@ async function initDatabase() {
 
     console.log('✅ 数据表创建成功');
 
-    // 插入默认管理员
-    const hashedPassword = await bcrypt.hash('admin123', 10);
-    try {
-      await connection.execute(
-        'INSERT INTO users (username, password, email, role) VALUES (?, ?, ?, ?)',
-        ['admin', hashedPassword, 'admin@example.com', 'admin']
-      );
-      console.log('✅ 默认管理员账户创建成功 (admin/admin123)');
-    } catch (error) {
-      if (error.code === 'ER_DUP_ENTRY') {
-        console.log('ℹ️ 管理员账户已存在');
-      } else {
-        throw error;
-      }
-    }
-
-    // 插入示例用户
-    const sampleUsers = [
-      { username: 'annotator1', password: 'pass123', email: 'annotator1@example.com', role: 'annotator' },
-      { username: 'reviewer1', password: 'pass123', email: 'reviewer1@example.com', role: 'reviewer' }
+    // 创建完整的默认用户（与项目文档保持一致）
+    console.log('👥 创建默认测试用户...');
+    
+    const defaultUsers = [
+      // 管理员账户
+      { username: 'admin', password: 'admin123', email: 'admin@example.com', role: 'admin', description: '管理员账户' },
+      
+      // 审核员账户
+      { username: 'reviewer1', password: 'pass123', email: 'reviewer1@example.com', role: 'reviewer', description: '基础审核员' },
+      { username: 'reviewer_senior', password: 'pass123', email: 'reviewer_senior@example.com', role: 'reviewer', description: '资深审核员' },
+      { username: 'reviewer_lead', password: 'pass123', email: 'reviewer_lead@example.com', role: 'reviewer', description: '主管审核员' },
+      
+      // 专家级标注员
+      { username: 'annotator_expert', password: 'pass123', email: 'annotator_expert@example.com', role: 'annotator', description: '专家级标注员' },
+      
+      // 高级标注员
+      { username: 'annotator_senior', password: 'pass123', email: 'annotator_senior@example.com', role: 'annotator', description: '高级标注员' },
+      { username: 'annotator_pro', password: 'pass123', email: 'annotator_pro@example.com', role: 'annotator', description: '专业标注员' },
+      
+      // 中级标注员
+      { username: 'annotator1', password: 'pass123', email: 'annotator1@example.com', role: 'annotator', description: '默认标注员' },
+      { username: 'annotator_medium1', password: 'pass123', email: 'annotator_medium1@example.com', role: 'annotator', description: '中级标注员1' },
+      { username: 'annotator_medium2', password: 'pass123', email: 'annotator_medium2@example.com', role: 'annotator', description: '中级标注员2' },
+      { username: 'annotator_regular', password: 'pass123', email: 'annotator_regular@example.com', role: 'annotator', description: '普通标注员' },
+      
+      // 新手标注员
+      { username: 'annotator_junior1', password: 'pass123', email: 'annotator_junior1@example.com', role: 'annotator', description: '新手标注员1' },
+      { username: 'annotator_junior2', password: 'pass123', email: 'annotator_junior2@example.com', role: 'annotator', description: '新手标注员2' },
+      { username: 'annotator_newbie', password: 'pass123', email: 'annotator_newbie@example.com', role: 'annotator', description: '初学者' }
     ];
 
-    for (const user of sampleUsers) {
+    let createdCount = 0;
+    for (const user of defaultUsers) {
       try {
-        const hashedPass = await bcrypt.hash(user.password, 10);
+        const hashedPassword = await bcrypt.hash(user.password, 10);
         await connection.execute(
           'INSERT INTO users (username, password, email, role) VALUES (?, ?, ?, ?)',
-          [user.username, hashedPass, user.email, user.role]
+          [user.username, hashedPassword, user.email, user.role]
         );
-        console.log(`✅ 示例用户 ${user.username} 创建成功`);
+        console.log(`✅ ${user.description} (${user.username}) 创建成功`);
+        createdCount++;
       } catch (error) {
         if (error.code === 'ER_DUP_ENTRY') {
           console.log(`ℹ️ 用户 ${user.username} 已存在`);
         } else {
-          throw error;
+          console.error(`❌ 创建用户 ${user.username} 失败:`, error.message);
         }
       }
     }
 
-    console.log('🎉 数据库初始化完成！');
+    console.log(`\n📊 用户创建统计:`);
+    console.log(`   成功创建: ${createdCount} 个用户`);
+    console.log(`   管理员: 1 个 (admin)`);
+    console.log(`   审核员: 3 个 (reviewer1, reviewer_senior, reviewer_lead)`);
+    console.log(`   标注员: 10 个 (不同技能等级)`);
+
+    console.log(`\n🔐 默认登录信息:`);
+    console.log(`   管理员: admin / admin123`);
+    console.log(`   审核员: reviewer1 / pass123`);
+    console.log(`   标注员: annotator1 / pass123`);
+    console.log(`   所有密码统一为: pass123 (管理员除外)`);
+
+    console.log('\n🎉 数据库初始化完成！');
+    console.log('💡 提示: 现在可以运行 generate-complex-data.js 来生成测试数据');
 
   } catch (error) {
     console.error('❌ 数据库初始化失败:', error);
