@@ -2,24 +2,29 @@
 
 echo "🚀 启动猫狗标注平台..."
 
+# 获取脚本所在的目录作为项目根目录
+PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$PROJECT_ROOT"
+
+echo "📁 项目根目录: $PROJECT_ROOT"
+
 # 检查是否安装了必要的依赖
 if [ ! -d "server/node_modules" ]; then
     echo "📦 安装后端依赖..."
-    cd server && npm install && cd ..
+    (cd server && npm install)
 fi
 
 if [ ! -d "client/node_modules" ]; then
     echo "📦 安装前端依赖..."
-    cd client && npm install && cd ..
+    (cd client && npm install)
 fi
 
 echo "🗄️ 检查数据库连接..."
 
 # 启动后端（在后台）
 echo "🔧 启动后端服务器..."
-cd server && npm start &
+(cd server && npm start) &
 SERVER_PID=$!
-cd ..
 
 # 等待后端启动
 sleep 3
@@ -41,7 +46,7 @@ echo ""
 echo "⚠️ 按 Ctrl+C 停止所有服务"
 echo ""
 
-cd client && npm run dev &
+(cd client && npm run dev) &
 CLIENT_PID=$!
 
 # 等待用户中断
